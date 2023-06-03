@@ -2,6 +2,10 @@
 
 A task management app that allows users to create, update, and delete tasks, set deadlines, and categorize them. Uses Appwrite for user authentication, data storage, and real-time updates.
 
+# Contributors
+- nikkieke
+- wilfredcloud
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
