@@ -14,6 +14,25 @@ class AuthRepositoryImpl implements AuthRepository{
           name: name,
           email: email,
           password: password);
+      await account.createEmailSession(email: email, password: password);
+      return response;
+
+    }on AppwriteException catch(e){
+      throw e.response.toString();
+    }
+
+
+  }
+
+  @override
+  Future<Session> signInUser(String email, String password)async {
+    Account account = Account(AppWriteClient.instance.client);
+    try{
+      final response = await account
+          .createEmailSession(
+          email: email,
+          password: password);
+      await account.createEmailSession(email: email, password: password);
       return response;
 
     }on AppwriteException catch(e){
