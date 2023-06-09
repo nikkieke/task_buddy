@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:task_buddy/core/service/appwrite_client.dart';
 
 import '../../../../core/colors/app_colors.dart';
 import '../../../../core/routes/routes.dart';
@@ -19,11 +20,25 @@ class Splashscreen extends StatefulWidget {
 class _SplashscreenState extends State<Splashscreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 5), () {
-      context.go(Routes.ONBOARDING);
-    });
+    checkUserStatus();
     super.initState();
+    }
+
+    void checkUserStatus()async{
+      final user = await AppWriteClient.instance.getUser();
+      if(user.status == true){
+        Future.delayed(const Duration(seconds: 5), () {
+          context.go(Routes.HOME);
+        });
+      }else{
+        Future.delayed(const Duration(seconds: 5), () {
+          context.go(Routes.ONBOARDING);
+        });
+    }
+
+
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
