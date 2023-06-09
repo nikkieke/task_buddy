@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:task_buddy/widgets/app_text.dart';
 
 import '../../../../core/routes/routes.dart';
+import '../../../../core/service/appwrite_client.dart';
 import '../../domain/usecase/provider.dart';
 
 class SignupProvider extends ChangeNotifier{
@@ -43,7 +44,7 @@ class SignupProvider extends ChangeNotifier{
     print(response.status);
     if(response.status == true){
       if(context.mounted){
-        context.go(Routes.VERIFYEMAIL);
+        context.go(Routes.HOME);
       }
 
     }
