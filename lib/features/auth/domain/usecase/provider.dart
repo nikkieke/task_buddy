@@ -6,3 +6,7 @@ import 'auth_usecase.dart';
 final signupProvider = Provider<AuthUseCase>((ref){
   return AuthUseCaseImpl(ref.read(createAcctProvider));
 });
+
+final logInProvider = Provider<AuthUseCase>((ref){
+  return AuthUseCaseImpl(ref.read(signInProvider));
+});
