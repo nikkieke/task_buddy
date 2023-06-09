@@ -5,3 +5,8 @@ import 'auth_repository_impl.dart';
 final createAcctProvider = Provider<AuthRepository>((ref){
   return AuthRepositoryImpl();
 });
+
+final signInProvider = Provider<AuthRepository>((ref){
+  return AuthRepositoryImpl();
+});
+
