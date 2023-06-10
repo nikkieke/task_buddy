@@ -132,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
-        splashColor: AppColors.primaryColor,
         shape: const CircleBorder(),
         backgroundColor: AppColors.starkWhite,
         foregroundColor: AppColors.primaryColor,
