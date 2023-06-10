@@ -25,16 +25,19 @@ class _SplashscreenState extends State<Splashscreen> {
     }
 
     void checkUserStatus()async{
-      final user = await AppWriteClient.instance.getUser();
+      final user = await AppWriteClient.instance.getUser()
+          .catchError((e){
+        Future.delayed(const Duration(seconds: 5), () {
+          context.go(Routes.ONBOARDING);
+        });
+        throw e;
+      });
       if(user.status == true){
         Future.delayed(const Duration(seconds: 5), () {
           context.go(Routes.HOME);
         });
-      }else{
-        Future.delayed(const Duration(seconds: 5), () {
-          context.go(Routes.ONBOARDING);
-        });
     }
+
 
 
   }
