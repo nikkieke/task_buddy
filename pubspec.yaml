@@ -45,7 +45,8 @@ dependencies:
   smooth_page_indicator:
   flutter_riverpod:
   loading_indicator:
-  fpdart:
+  intl: ^0.18.1
+
 
 dev_dependencies:
   flutter_test:
