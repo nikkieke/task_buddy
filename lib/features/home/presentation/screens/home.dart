@@ -60,29 +60,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                FutureBuilder(
-                   future: AppWriteClient.instance.getUser(),
-                    builder: (BuildContext context, AsyncSnapshot<User> snapshot){
-                     switch (snapshot.connectionState){
-                       case ConnectionState.none:
-                         return const AppText(text: "Hello!",
-                           size: 40,color:AppColors.leadBlack,
-                           fontWeight: FontWeight.w700,);
-                       case ConnectionState.active:
-                       case ConnectionState.waiting:
-                         return const AppText(text: "Hello!",
-                           size: 40,color:AppColors.leadBlack,
-                           fontWeight: FontWeight.w700,);
-                       case ConnectionState.done:
-                         if (snapshot.hasError) {
-                           context.go(Routes.ONBOARDING);
-                         }
-                         return AppText(text: "Hello ${snapshot.data?.name}!",
-                           size: 40,color:AppColors.leadBlack,
-                           fontWeight: FontWeight.w700,);
-                     }
-                    }
-                ),
+              AppText(text: "Hello ${provider.user.name}!",
+                size: 40,color:AppColors.leadBlack,
+                fontWeight: FontWeight.w700,),
 
                 const AppText(text: "Hope your day as amazing as you are",
                   size: 16,color:AppColors.leadBlack,
