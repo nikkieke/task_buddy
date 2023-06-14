@@ -45,7 +45,12 @@ final router = GoRouter(
         ),
         GoRoute(
           path: Routes.PROJECTDETAILS,
-          builder: (context, state) => const ProjectDetailsScreen(),
+          builder: (context, state) {
+            final project = state.extra! as Map<String, dynamic>;
+            return ProjectDetailsScreen(
+                  project,
+            );
+          }
         ),
       ]
     ),
