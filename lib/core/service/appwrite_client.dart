@@ -1,7 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart';
 
-import 'endpoints.dart';
+import 'config.dart';
 
 class AppWriteClient{
   AppWriteClient._();
@@ -9,9 +9,10 @@ class AppWriteClient{
   static final instance = AppWriteClient._();
 
   Client client = Client()
-      .setEndpoint(AppWriteEndpoints.endpoint)
-      .setProject(AppWriteEndpoints.projectID);
+      .setEndpoint(AppWriteConfig.endpoint)
+      .setProject(AppWriteConfig.projectID);
 
+  static final database = Databases(AppWriteClient.instance.client);
 
 
   Future<User>getUser()async{
