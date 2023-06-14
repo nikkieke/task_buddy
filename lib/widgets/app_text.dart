@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 class AppText extends StatelessWidget{
   final String text;
   final Color? color;
+  final FontStyle? fontStyle;
   final FontWeight? fontWeight;
   final TextDecoration? line;
   final double? size;
@@ -25,7 +26,7 @@ class AppText extends StatelessWidget{
         this.letterSpacing,
         this.overFLow,
         this.maxLines,
-        this.height})
+        this.height, this.fontStyle})
       : super(key: key);
 
   @override
@@ -43,6 +44,7 @@ class AppText extends StatelessWidget{
         height: height ?? 1,
         fontFamily: fontFamily ?? GoogleFonts.roboto().fontFamily,
         decoration: line,
+        fontStyle: fontStyle,
       ),
     );
   }
