@@ -1,23 +1,45 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:task_buddy/core/colors/app_colors.dart';
 import 'package:task_buddy/widgets/app_text.dart';
 
 import '../../../../core/routes/routes.dart';
+import '../../../../core/service/appwrite_client.dart';
+import '../view_model/create_project_provider.dart';
+import '../widgets/project_list_widget.dart';
 import '../widgets/status_widget.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  late CreateProjectProvider provider;
+
+
+
+  @override
+  void didChangeDependencies() {
+    provider = ref.watch(createProjectProvider);
+    provider.getList();
+    super.didChangeDependencies();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    provider = ref.watch(createProjectProvider);
+
+
+    return provider.haveData ?
+    Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.starkWhite,
       body: SafeArea(
@@ -28,107 +50,106 @@ class _HomeScreenState extends State<HomeScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                    onPressed: (){
+                  onPressed: (){
 
-                    },
-                    icon: const Icon(Icons.menu_rounded, size: 35,),
+                  },
+                  icon: const Icon(Icons.menu_rounded, size: 35,),
                   color: AppColors.leadBlack,
                   style: IconButton.styleFrom(
-                    shape: const CircleBorder()
-                ),
+                      shape: const CircleBorder()
+                  ),
                 ),
                 const SizedBox(height: 30,),
-                const AppText(text: "Hello John!",
-                  size: 40,color:AppColors.leadBlack,
-                  fontWeight: FontWeight.w700,),
+                FutureBuilder(
+                   future: AppWriteClient.instance.getUser(),
+                    builder: (BuildContext context, AsyncSnapshot<User> snapshot){
+                     switch (snapshot.connectionState){
+                       case ConnectionState.none:
+                         return const AppText(text: "Hello!",
+                           size: 40,color:AppColors.leadBlack,
+                           fontWeight: FontWeight.w700,);
+                       case ConnectionState.active:
+                       case ConnectionState.waiting:
+                         return const AppText(text: "Hello!",
+                           size: 40,color:AppColors.leadBlack,
+                           fontWeight: FontWeight.w700,);
+                       case ConnectionState.done:
+                         if (snapshot.hasError) {
+                           context.go(Routes.ONBOARDING);
+                         }
+                         return AppText(text: "Hello ${snapshot.data?.name}!",
+                           size: 40,color:AppColors.leadBlack,
+                           fontWeight: FontWeight.w700,);
+                     }
+                    }
+                ),
+
                 const AppText(text: "Hope your day as amazing as you are",
                   size: 16,color:AppColors.leadBlack,
                   fontWeight: FontWeight.w700,),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 50,),
                 CupertinoSearchTextField(
                   backgroundColor: AppColors.primaryColor.withOpacity(0.2),
                   padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 20),
                   prefixInsets: const EdgeInsets.only(left: 15),
                   borderRadius: const BorderRadius.all(Radius.circular(30)),
-                  //controller: controller,
-                  onChanged: (value) {},
-                  onSubmitted: (value) {},
+                  controller: provider.searchCtr,
+                  onChanged: (value) {
+                    provider.searchList(value);
+                  },
                   autocorrect: true,
                 ),
-                const SizedBox(height: 30,),
-                Row(
+                provider.currentProjectList.isEmpty?
+                    const Center(
+                      child: Column(
+                        children: [
+                          Icon(Icons.note_alt_outlined,
+                            color: AppColors.secondaryColor,size: 150,),
+                          AppText(text: "No projects available. "
+                              "Create New Project",
+                            size: 16,color:AppColors.leadBlack,
+                            fontWeight: FontWeight.w700,),
+
+                        ],
+                      ),
+                    ):
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StatusWidget(text: 'All', pressed: () {
 
-                    },),
-                    StatusWidget(text: 'Pending', pressed: () {
-
-                    },),
-                    StatusWidget(text: 'Completed', pressed: () {
-
-                    },),
-                  ],
-                ),
-                const SizedBox(height: 20,),
-                const AppText(text: "Projects",
-                  size: 20,color:AppColors.leadBlack,
-                  fontWeight: FontWeight.w700,),
-                const SizedBox(height: 20,),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height/2.2,
-                  child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: 5,
-                        itemBuilder: (context, index){
-                          return TextButton(
-                            onPressed: () {
-                              context.push("${Routes.HOME}/${Routes.PROJECTDETAILS}");
-                            },
-                            style: TextButton.styleFrom(
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-                            ),
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.only(bottom: 10),
-                              padding: const EdgeInsets.symmetric(horizontal: 10),
-                              height: 100,
-                              decoration: BoxDecoration(
-                                color: AppColors.primaryColor.withOpacity(0.2),
-                                borderRadius: const BorderRadius.all(Radius.circular(30)),
-                              ),
-                              child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    height: 45,
-                                    width:45,
-                                      decoration: const BoxDecoration(
-                                        color: AppColors.starkWhite,
-                                        shape: BoxShape.circle
-                                      ),
-                                      child: const Icon(Icons.file_open, size: 28,color: AppColors.secondaryColor,)),
-                                  const AppText(text: "House keeping Project",
-                                    size: 20,color:AppColors.leadBlack,
-                                  ),
-                                  IconButton(
-                                    onPressed: () {},
-                                    icon: const Icon(Icons.more_vert_outlined, size: 28,color: AppColors.leadBlack,),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }
+                    const SizedBox(height: 30,),
+                    // Row(
+                    //   children: [
+                    //     StatusWidget(text: 'All', pressed: () {
+                    //
+                    //     },),
+                    //     StatusWidget(text: 'Pending', pressed: () {
+                    //
+                    //     },),
+                    //     StatusWidget(text: 'Completed', pressed: () {
+                    //
+                    //     },),
+                    //   ],
+                    // ),
+                    const SizedBox(height: 20,),
+                     AppText(text: "Projects",
+                      size: 18,color:AppColors.leadBlack.withOpacity(0.5),
+                      fontWeight: FontWeight.w700,),
+                    const SizedBox(height: 20,),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height/2.2,
+                      child: ProjectList(provider: provider),
                     ),
-                ),
+
+                  ],
+                )
 
 
 
               ],
             ),
           ),
-        ),
+        )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
@@ -140,7 +161,20 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         child: const Icon(Icons.add),
       ),
+    )
+    :const Scaffold(
+      body: Center(
+        child: LoadingIndicator(
+        indicatorType: Indicator.orbit,
+        colors: [AppColors.primaryColor],
+        strokeWidth: 2,
+        backgroundColor: AppColors.starkWhite,
+        pathBackgroundColor: AppColors.starkWhite
+        ),
+      ),
     );
   }
 }
+
+
 
