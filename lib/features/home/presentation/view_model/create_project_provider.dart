@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/routes/routes.dart';
+import '../../../../core/service/appwrite_client.dart';
 import '../../domain/usecase/provider.dart';
 
 class CreateProjectProvider extends ChangeNotifier{
@@ -22,6 +23,7 @@ class CreateProjectProvider extends ChangeNotifier{
   final searchCtr = TextEditingController();
   List <Document>currentProjectList = [];
   bool searchOn= false;
+  late User user;
 
 
 
@@ -125,6 +127,10 @@ class CreateProjectProvider extends ChangeNotifier{
   }
 
   Future<void> getList()async{
+    user = await AppWriteClient.instance.getUser()
+        .catchError((e){
+      throw e;
+    });
      projectList = await ref.watch(getAllProjectsProvider)
         .getAllProjects()
         .catchError((e){
@@ -133,9 +139,9 @@ class CreateProjectProvider extends ChangeNotifier{
      if(searchOn == false){
        currentProjectList = projectList;
      }
-    print(projectList.toString());
     haveData = true;
     notifyListeners();
+
   }
 
   Future<void> deleteProjectItem(String documentId)async{
