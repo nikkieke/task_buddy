@@ -105,57 +105,57 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
 
                   ),
                 ),
-                const SizedBox(height: 30,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AppText(text: "Set Start Date & Time",
-                      size: 15, color: AppColors.midGrey,
-                      fontWeight: FontWeight.w700,),
-                    TextButton(
-                      onPressed: (){
-                        provider.pickStartDateTime(context);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 160,
-                        decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        child: AppText(text: provider.startFormatted,
-                          size: 15, color: AppColors.starkWhite,fontWeight: FontWeight.w700,),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 30,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const AppText(text: "Set End Date & Time",
-                      size: 15, color: AppColors.midGrey,
-                      fontWeight: FontWeight.w700,),
-                    TextButton(
-                      onPressed: () {
-                        provider.pickEndDateTime(context);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50,
-                        width: 160,
-                        decoration: BoxDecoration(
-                            color: AppColors.primaryColor,
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                        child:  AppText(text: provider.endFormatted,
-                          size: 15, color: AppColors.starkWhite,fontWeight: FontWeight.w700,),
-                      ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 30,),
+                const SizedBox(height: 50,),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     const AppText(text: "Set Start Date & Time",
+                //       size: 15, color: AppColors.midGrey,
+                //       fontWeight: FontWeight.w700,),
+                //     TextButton(
+                //       onPressed: (){
+                //         provider.pickStartDateTime(context);
+                //       },
+                //       child: Container(
+                //         alignment: Alignment.center,
+                //         height: 50,
+                //         width: 160,
+                //         decoration: BoxDecoration(
+                //             color: AppColors.primaryColor,
+                //             borderRadius: BorderRadius.circular(30)
+                //         ),
+                //         child: AppText(text: provider.startFormatted,
+                //           size: 15, color: AppColors.starkWhite,fontWeight: FontWeight.w700,),
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // const SizedBox(height: 30,),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //   children: [
+                //     const AppText(text: "Set End Date & Time",
+                //       size: 15, color: AppColors.midGrey,
+                //       fontWeight: FontWeight.w700,),
+                //     TextButton(
+                //       onPressed: () {
+                //         provider.pickEndDateTime(context);
+                //       },
+                //       child: Container(
+                //         alignment: Alignment.center,
+                //         height: 50,
+                //         width: 160,
+                //         decoration: BoxDecoration(
+                //             color: AppColors.primaryColor,
+                //             borderRadius: BorderRadius.circular(30)
+                //         ),
+                //         child:  AppText(text: provider.endFormatted,
+                //           size: 15, color: AppColors.starkWhite,fontWeight: FontWeight.w700,),
+                //       ),
+                //     )
+                //   ],
+                // ),
+                // const SizedBox(height: 30,),
                 Align(
                   alignment: Alignment.center,
                   child: Button(
