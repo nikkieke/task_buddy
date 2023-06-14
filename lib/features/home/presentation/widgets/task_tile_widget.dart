@@ -1,43 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../../../core/colors/app_colors.dart';
 import '../../../../widgets/app_text.dart';
-import '../view_model/project_details_provider.dart';
 
 class TaskTileWidget extends StatelessWidget {
   TaskTileWidget({
     super.key,
     required this.onChanged,
     required this.taskName,
-    required this.provider,
+    required this.taskCompleted,
+    required this.deleteFunction,
   });
 
-  final ProjectDetailsProvider provider;
+
   Function(bool?)? onChanged;
+  Function(BuildContext)? deleteFunction;
   final String taskName;
+  final bool taskCompleted;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      height: 50,
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor.withOpacity(0.2),
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
-      child:  Row(
-        children: [
-          Checkbox(
-            shape: const CircleBorder(),
-            value: provider.taskCompleted,
-            onChanged: onChanged,
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      child: Slidable(
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          children: [
+            SlidableAction(
+                icon: Icons.delete,
+                onPressed: deleteFunction,
+                backgroundColor: Colors.red.shade300,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+            )
+          ],
+        ),
+        child: Container(
+          alignment: Alignment.center,
+          height: 50,
+          decoration: BoxDecoration(
+            color: AppColors.primaryColor.withOpacity(0.2),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
-          AppText(text: taskName, size: 15, line: provider.taskCompleted?
-          TextDecoration.lineThrough: TextDecoration.none,),
+          child:  Row(
+            children: [
+              Checkbox(
+                shape: const CircleBorder(),
+                value: taskCompleted,
+                onChanged: onChanged,
+              ),
+              AppText(text: taskName, size: 15, line: taskCompleted?
+              TextDecoration.lineThrough: TextDecoration.none,),
 
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
