@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_buddy/core/colors/app_colors.dart';
 
 import '../../../../widgets/button.dart';
+import '../view_model/project_details_provider.dart';
 
 class DialogBox extends StatelessWidget {
-  const DialogBox({Key? key, required this.controller}) : super(key: key);
+    const DialogBox({Key? key, required this.controller, required this.pressed, }) : super(key: key);
 
   final TextEditingController controller;
+  final VoidCallback pressed;
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,7 @@ class DialogBox extends StatelessWidget {
           children: [
             IconButton(
             onPressed: () {
-
+            context.pop();
       },
         icon: const Icon(Icons.arrow_back, size: 20,),
         color: AppColors.leadBlack,
@@ -45,7 +49,7 @@ class DialogBox extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.center,
-                child: Button(text: 'Save', press: () {  },))
+                child: Button(text: 'Save', press: pressed,))
           ],
         ),
       ),
