@@ -1,14 +1,30 @@
+import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+
+import '../../../../core/routes/routes.dart';
+import '../../domain/usecase/provider.dart';
 
 class CreateProjectProvider extends ChangeNotifier{
   final ChangeNotifierProviderRef ref;
 
   CreateProjectProvider({required this.ref});
 
+  bool loading = false;
+  bool haveData = false;
+  final titleCtr = TextEditingController();
+  final descriptionCtr = TextEditingController();
   String startFormatted = DateFormat.yMd().add_jm().format(DateTime.now()).toString();
   String endFormatted = DateFormat.yMd().add_jm().format(DateTime.now()).toString();
+  List <Document> projectList = [];
+  final searchCtr = TextEditingController();
+  List <Document>currentProjectList = [];
+  bool searchOn= false;
+
+
+
 
 
   Future pickStartDateTime(BuildContext context) async {
@@ -32,6 +48,7 @@ class CreateProjectProvider extends ChangeNotifier{
     );
 
     startFormatted = DateFormat.yMd().add_jm().format(newDateTime).toString();
+
     notifyListeners();
   }
 
@@ -56,6 +73,7 @@ class CreateProjectProvider extends ChangeNotifier{
     );
 
     endFormatted = DateFormat.yMd().add_jm().format(newDateTime).toString();
+
     notifyListeners();
   }
 
@@ -78,6 +96,73 @@ class CreateProjectProvider extends ChangeNotifier{
 
     );
   }
+
+  Future<void>createProject(BuildContext context)async{
+    loading = true;
+    notifyListeners();
+     final response = await ref.watch(
+         createNewProjectProvider).createNewProject(
+          titleCtr.text,
+          descriptionCtr.text,
+          DateTime.now().toString(),
+          DateTime.now().toString(),
+
+     ).catchError((e){
+
+       loading = false;
+       notifyListeners();
+       throw e;
+     });
+    print(response);
+    titleCtr.clear();
+    descriptionCtr.clear();
+    if(context.mounted){
+      context.go(Routes.HOME);
+    }
+
+    loading = false;
+    notifyListeners();
+  }
+
+  Future<void> getList()async{
+     projectList = await ref.watch(getAllProjectsProvider)
+        .getAllProjects()
+        .catchError((e){
+        throw e;
+    });
+     if(searchOn == false){
+       currentProjectList = projectList;
+     }
+    print(projectList.toString());
+    haveData = true;
+    notifyListeners();
+  }
+
+  Future<void> deleteProjectItem(String documentId)async{
+    await ref.watch(deleteAProjectsProvider)
+        .deleteAProject(documentId)
+        .catchError((e) {
+      throw e;
+    });
+    notifyListeners();
+  }
+
+  void searchList(String value){
+    searchOn = true;
+    notifyListeners();
+    if(value.isEmpty){
+      currentProjectList = projectList;
+    }else {
+      currentProjectList = projectList.where((project) =>
+          project.data['title'].toString().toLowerCase().contains(
+              value.toLowerCase())).toList();
+    }
+    notifyListeners();
+  }
+
+
+
+
 
 
 }
