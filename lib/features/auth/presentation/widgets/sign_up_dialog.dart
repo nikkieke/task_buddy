@@ -99,38 +99,38 @@ class _CustomSignupDialogState extends ConsumerState<CustomSignupDialog> {
                   },
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-                child: Align(
-                    alignment: Alignment.center,
-                    child: AppText(text: 'OR', size: 18, color: AppColors.leadBlack,)),
-              ),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: (){
-
-                    },
-                    style: TextButton.styleFrom(
-                        shape: const CircleBorder()
-                    ),
-                    child: SvgPicture.asset(
-                      "assets/icons/google.svg",),
-                  ),
-                  TextButton(
-                    onPressed: (){
-
-                    },
-                    style: TextButton.styleFrom(
-                        shape: const CircleBorder()
-                    ),
-                    child: SvgPicture.asset(
-                      "assets/icons/twitter.svg",),
-                  ),
-                ],
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.symmetric(vertical: 10),
+              //   child: Align(
+              //       alignment: Alignment.center,
+              //       child: AppText(text: 'OR', size: 18, color: AppColors.leadBlack,)),
+              // ),
+              //
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     TextButton(
+              //       onPressed: (){
+              //
+              //       },
+              //       style: TextButton.styleFrom(
+              //           shape: const CircleBorder()
+              //       ),
+              //       child: SvgPicture.asset(
+              //         "assets/icons/google.svg",),
+              //     ),
+              //     TextButton(
+              //       onPressed: (){
+              //
+              //       },
+              //       style: TextButton.styleFrom(
+              //           shape: const CircleBorder()
+              //       ),
+              //       child: SvgPicture.asset(
+              //         "assets/icons/twitter.svg",),
+              //     ),
+              //   ],
+              // ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
