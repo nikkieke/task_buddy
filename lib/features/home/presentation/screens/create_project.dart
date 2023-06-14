@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:task_buddy/core/colors/app_colors.dart';
 import 'package:task_buddy/widgets/button.dart';
 
@@ -26,7 +27,17 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
     return Scaffold(
       backgroundColor: AppColors.starkWhite,
       body: SafeArea(
-        child: Padding(
+        child: provider.loading?
+        const Center(
+          child: LoadingIndicator(
+              indicatorType: Indicator.orbit,
+              colors: [AppColors.primaryColor],
+              strokeWidth: 2,
+              backgroundColor: AppColors.starkWhite,
+              pathBackgroundColor: AppColors.starkWhite
+          ),
+        ):
+        Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: SingleChildScrollView(
             child: Column(
@@ -58,6 +69,7 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                   size: 15, color: AppColors.midGrey,
                   fontWeight: FontWeight.w700,),
                 TextFormField(
+                  controller: provider.titleCtr,
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w500
@@ -76,6 +88,7 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                   size: 15, color: AppColors.midGrey,
                   fontWeight: FontWeight.w700,),
                 TextFormField(
+                  controller: provider.descriptionCtr,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   style: const TextStyle(
@@ -147,7 +160,9 @@ class _CreateProjectScreenState extends ConsumerState<CreateProjectScreen> {
                   alignment: Alignment.center,
                   child: Button(
                       text: "Create Project",
-                      press: (){}
+                      press: () async {
+                        await provider.createProject(context);
+                      }
                   ),
                 )
               ],
