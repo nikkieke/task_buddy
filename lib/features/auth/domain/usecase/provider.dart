@@ -10,3 +10,7 @@ final signupProvider = Provider<AuthUseCase>((ref){
 final logInProvider = Provider<AuthUseCase>((ref){
   return AuthUseCaseImpl(ref.read(signInProvider));
 });
+
+final logoutProvider = Provider<AuthUseCase>((ref){
+  return AuthUseCaseImpl(ref.read(signInProvider));
+});

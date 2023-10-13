@@ -10,3 +10,7 @@ final signInProvider = Provider<AuthRepository>((ref){
   return AuthRepositoryImpl();
 });
 
+final signOutProvider = Provider<AuthRepository>((ref){
+  return AuthRepositoryImpl();
+});
+

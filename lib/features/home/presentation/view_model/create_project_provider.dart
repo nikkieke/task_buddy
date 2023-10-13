@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/routes/routes.dart';
 import '../../../../core/service/appwrite_client.dart';
+import '../../../auth/domain/usecase/provider.dart';
 import '../../domain/usecase/provider.dart';
 
 class CreateProjectProvider extends ChangeNotifier{
@@ -166,7 +167,18 @@ class CreateProjectProvider extends ChangeNotifier{
     notifyListeners();
   }
 
+  Future<void>logout(BuildContext context)async{
+    loading = true;
+    notifyListeners();
+    final response = ref.watch(logoutProvider).signOut();
+    if(context.mounted) {
+      context.go(Routes.GETSTARTED);
+    }
+    print(response);
+    loading = false;
+    notifyListeners();
 
+  }
 
 
 

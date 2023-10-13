@@ -5,6 +5,7 @@ import 'package:appwrite/models.dart';
 abstract class AuthUseCase{
   Future<User>signUp(String userID, String name, String email, String password);
   Future<Session>signIn(String email, String password);
+  Future<dynamic>signOut();
   
 }
 
@@ -26,6 +27,11 @@ class AuthUseCaseImpl implements AuthUseCase{
   @override
   Future<Session> signIn(String email, String password) async{
     return await authRepository.signInUser(email, password);
+  }
+
+  @override
+  Future signOut()async {
+    return await authRepository.signOut();
   }
   
 }

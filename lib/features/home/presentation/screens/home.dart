@@ -42,6 +42,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: AppColors.starkWhite,
+      drawer:  Drawer(
+        width: 200,
+        backgroundColor: Colors.grey,
+        child: Container(
+          padding: const EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
+              const Divider(),
+              ListTile(
+                  leading: const Icon(Icons.logout_outlined),
+                  title: const Text("Log out",style: TextStyle(
+                      color: Colors.white,  fontSize: 15)),
+                  onTap: (){
+                    provider.logout(context);
+                  }
+              ),
+            ],
+          ),
+        )
+      ),
+      appBar: AppBar(title: const Text(""),),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 15,right: 15),
@@ -49,16 +70,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                IconButton(
-                  onPressed: (){
-
-                  },
-                  icon: const Icon(Icons.menu_rounded, size: 35,),
-                  color: AppColors.leadBlack,
-                  style: IconButton.styleFrom(
-                      shape: const CircleBorder()
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: (){
+                //
+                //   },
+                //   icon: const Icon(Icons.menu_rounded, size: 35,),
+                //   color: AppColors.leadBlack,
+                //   style: IconButton.styleFrom(
+                //       shape: const CircleBorder()
+                //   ),
+                // ),
                 const SizedBox(height: 30,),
               AppText(text: "Hello ${provider.user.name}!",
                 size: 40,color:AppColors.leadBlack,

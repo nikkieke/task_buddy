@@ -19,6 +19,7 @@ class LoginProvider extends ChangeNotifier{
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
 
+
   Future<void>login(BuildContext context)async{
     loading = true;
     notifyListeners();
@@ -44,6 +45,8 @@ class LoginProvider extends ChangeNotifier{
     loading = false;
     notifyListeners();
   }
+
+
 
 
 

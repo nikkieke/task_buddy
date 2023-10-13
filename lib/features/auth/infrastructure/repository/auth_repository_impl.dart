@@ -40,4 +40,17 @@ class AuthRepositoryImpl implements AuthRepository{
     }
   }
 
+  @override
+  Future<dynamic> signOut()async{
+    try{
+      Account account = Account(AppWriteClient.instance.client);
+      final response = await account.deleteSession(sessionId: 'current');
+      return response;
+    }on AppwriteException catch(e){
+      throw e.response.toString();
+    }
+
+
+  }
+
 }
